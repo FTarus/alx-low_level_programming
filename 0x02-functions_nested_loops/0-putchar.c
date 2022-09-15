@@ -1,11 +1,11 @@
-#include "main.h"
+#include "holberton.h"
 
 /**
 * main - function to print
 *
 * Return: 0
 */
-int main(void)
+int holberton(void)
 {
 char main[9] = {'H', 'o', 'l', 'b', 'e', 'r', 't', 'o', 'n'};
 unsigned int c;
@@ -13,7 +13,7 @@ unsigned int c;
 for (c = 0; c < sizeof(holberton); c++)
 
 {
-  _putchar(main[c]);
+  _putchar(holberton[c]);
 }
 
 _putchar('\n');
