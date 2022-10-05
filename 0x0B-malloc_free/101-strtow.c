@@ -1,130 +1,112 @@
 #include "main.h"
-#include <stdlib.h>
 
 /**
- * strtow - splits a string into words
- * @str: string of words to be split
- * Return: double pointer to strings
+ * len - returns length of str
+ *@str: string to be counted
+ *
+ * Return: length of the string
  */
 
-char **strtow(char *str)
+int len(char *str)
+{
+int len = 0;
+
+if (str != NULL)
 {
 
-char **ptr;
-int i, k, len, start, end, j = 0;
-int words =  countWords(str);
-
-if (!str || !countWords(str))
-return (NULL);
-
-ptr = malloc(sizeof(char *) * (words + 1));
-if (!ptr)
-return (NULL);
-
-for (i = 0; i < words; i++)
-{
-
-start = startIndex(str, j);
-end = endIndex(str, start);
-len = end - start;
-ptr[i] = malloc(sizeof(char) * (len + 1));
-if (!ptr[i])
-{
-
-i -= 1;
-while (i >= 0)
-{
-
-free(ptr[i]);
-i--;
+while (str[len])
+len++;
 
 }
-free(ptr);
-return (NULL);
-
-}
-for (k = 0; k < len; k++)
-ptr[i][k] = str[start++];
-ptr[i][k++] = '\0';
-j = end + 1;
-
-}
-ptr[i] = NULL;
-return (ptr);
+return (len);
 
 }
 
 /**
- * isSpace - determines if character is a space or not
- * @c: input char
- * Return: 1 if true or 0 or not
+ * num_words - counts the number of words in str
+ *@str: string to be used
+ *
+ *Return: number of words
  */
 
-int isSpace(char c)
+int num_words(char *str)
 {
 
-return (c == ' ');
+int i = 0, words = 0;
+
+while (i <= len(str))
+{
+
+if ((str[i] != ' ') && (str[i] != '\0'))
+{
+
+i++;
 
 }
-
-/**
- * startIndex - returns first index of non-space char
- * @s: input string
- * @index: starting index
- * Return: index of first non-space char
- */
-
-int startIndex(char *s, int index)
+else if (((str[i] == ' ') || (str[i] == '\0')) && i && (str[i - 1] != ' '))
 {
 
-while (isSpace(*(s + index)))
-index++;
-return (index);
+words += 1;
+i++;
 
 }
-
-/**
- * endIndex - returns last index of non-space char
- * @s: input string
- * @index: starting index
- * Return: index of last index of non-space char
- */
-
-int endIndex(char *s, int index)
+else
 {
-
-while (!isSpace(*(s + index)))
-index++;
-return (index);
+i++;
 }
-
-/**
- * countWords - counts numbers of words in string
- * @s: input string
- * Return: number of words
- */
-
-int countWords(char *s)
-{
-
-int wordOn = 0;
-int words = 0;
-
-while (*s)
-{
-
-if (isSpace(*s) && wordOn)
-wordOn = 0;
-else if (!isSpace(*s) && !wordOn)
-{
-
-wordOn = 1;
-words++;
-
-}
-s++;
 
 }
 return (words);
 
+}
+
+/**
+ *strtow - splits a stirng into words
+ *@str: string to be splitted
+ *
+ *Return: pointer to the array of splitted words
+ */
+
+char **strtow(char *str)
+{
+char **split;
+int i, j = 0, temp = 0, size = 0, words = num_words(str);
+
+if (words == 0)
+return (NULL);
+split = (char **)malloc(sizeof(char *) * (words + 1));
+if (split != NULL)
+{
+for (i = 0; i <= len(str) && words; i++)
+{
+if ((str[i] != ' ') && (str[i] != '\0'))
+size++;
+else if (((str[i] == ' ') || (str[i] == '\0')) && i && (str[i - 1] != ' '))
+{
+split[j] = (char *)malloc(sizeof(char) * size + 1);
+if (split[j] != NULL)
+{
+while (temp < size)
+{
+split[j][temp] = str[(i - size) + temp];
+temp++;
+}
+split[j][temp] = '\0';
+size = temp = 0;
+j++;
+}
+else
+{
+while (j-- >= 0)
+free(split[j]);
+free(split);
+return (NULL);
+}
+}
+}
+split[words] = NULL;
+return (split);
+}
+else
+return (NULL);
 }
