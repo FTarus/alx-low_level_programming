@@ -1,23 +1,21 @@
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 /**
- * main - check the code for Holberton School students.
- * @argc: amount of args
- * @argv: arguments
- * Return: 1 if an error occurred, 0 otherwise
+ * main - function with two arguments
+ * @argc: int type argument count
+ * @argv: char type argument array
+ *
+ * Description: print opcode
+ * Return: na
  */
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
 
-unsigned char *p = (unsigned char *)main;
+int count;
 
-unsigned int bytes;
-
-int i;
-
+count = 0;
 if (argc != 2)
 {
 
@@ -32,9 +30,19 @@ printf("Error\n");
 exit(2);
 
 }
-bytes = atoi(argv[1]);
-for (i = 0; i < bytes; i++)
-printf("%02x ", *p++);
+while (count < atoi(argv[1]))
+{
+
+printf("%02x", *((unsigned char *)main + count));
+count++;
+if (atoi(argv[1]) > count)
+{
+
+printf(" ");
+
+}
+
+}
 printf("\n");
 return (0);
 
